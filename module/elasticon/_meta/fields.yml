@@ -1,0 +1,9 @@
+- key: elasticon
+  title: "elasticon"
+  description: >
+    elasticon Module
+  fields:
+    - name: elasticon
+      type: group
+      description: >
+      fields:

@@ -1,0 +1,6 @@
+- module: elasticon
+  metricsets: ["demo"]
+  enabled: true
+  period: 10s
+  hosts: ["localhost"]
+
