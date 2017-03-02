@@ -1,4 +1,9 @@
 # Directories
 build
 vendor
+data
+logs
+
+# Files
 .DS_Store
+elasticon2017beat

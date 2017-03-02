@@ -2,16 +2,24 @@ package demo
 
 import (
 	"github.com/elastic/beats/libbeat/common"
+	"github.com/elastic/beats/metricbeat/helper"
 	"github.com/elastic/beats/metricbeat/mb"
+	"github.com/elastic/beats/metricbeat/mb/parse"
 )
 
 // init registers the MetricSet with the central registry.
 // The New method will be called after the setup of the module and before starting to fetch data
 func init() {
-	if err := mb.Registry.AddMetricSet("elasticon", "demo", New); err != nil {
+	if err := mb.Registry.AddMetricSet("elasticon", "demo", New, hostParser); err != nil {
 		panic(err)
 	}
 }
+
+var (
+	hostParser = parse.URLHostParserBuilder{
+		DefaultScheme: "http",
+	}.Build()
+)
 
 // MetricSet type defines all fields of the MetricSet
 // As a minimum it must inherit the mb.BaseMetricSet fields, but can be extended with
@@ -19,7 +27,7 @@ func init() {
 // multiple fetch calls.
 type MetricSet struct {
 	mb.BaseMetricSet
-	counter int
+	http *helper.HTTP
 }
 
 // New create a new instance of the MetricSet
@@ -27,15 +35,9 @@ type MetricSet struct {
 // configuration entries if needed.
 func New(base mb.BaseMetricSet) (mb.MetricSet, error) {
 
-	config := struct{}{}
-
-	if err := base.Module().UnpackConfig(&config); err != nil {
-		return nil, err
-	}
-
 	return &MetricSet{
 		BaseMetricSet: base,
-		counter:       1,
+		http:          helper.NewHTTP(base),
 	}, nil
 }
 
@@ -44,10 +46,14 @@ func New(base mb.BaseMetricSet) (mb.MetricSet, error) {
 // descriptive error must be returned.
 func (m *MetricSet) Fetch() (common.MapStr, error) {
 
-	event := common.MapStr{
-		"counter": m.counter,
+	data, err := m.http.FetchJSON()
+	if err != nil {
+		return nil, err
 	}
-	m.counter++
+
+	event := common.MapStr{
+		"counter": data["counter"],
+	}
 
 	return event, nil
 }

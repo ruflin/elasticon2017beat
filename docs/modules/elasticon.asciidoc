@@ -22,8 +22,7 @@ elasticon2017beat.modules:
   metricsets: ["demo"]
   enabled: true
   period: 10s
-  hosts: ["localhost"]
-
+  hosts: ["localhost:8080"]
 ----
 
 [float]
