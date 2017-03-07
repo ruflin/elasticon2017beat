@@ -40,9 +40,8 @@
           "properties": {
             "demo": {
               "properties": {
-                "example": {
-                  "ignore_above": 1024,
-                  "type": "keyword"
+                "counter": {
+                  "type": "long"
                 }
               }
             }

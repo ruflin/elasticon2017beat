@@ -196,10 +196,10 @@ demo
 
 
 [float]
-=== elasticon.demo.example
+=== elasticon.demo.counter
 
-type: keyword
+type: integer
 
-Example field
+Hello world
 
 

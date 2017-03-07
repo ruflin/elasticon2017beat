@@ -16,7 +16,7 @@ func main() {
 			output := map[string]interface{}{}
 
 			// Add data fields
-			output["hello"] = "world"
+			output["title"] = "beats talk"
 			output["elasticon"] = "2017"
 			output["counter"] = counter
 
@@ -30,5 +30,5 @@ func main() {
 			counter = counter + 1
 		},
 	)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe("localhost:8080", nil)
 }

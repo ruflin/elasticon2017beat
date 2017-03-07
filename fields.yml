@@ -121,9 +121,9 @@
           description: >
             demo
           fields:
-            - name: example
-              type: keyword
+            - name: counter
+              type: integer
               description: >
-                Example field
+                Hello world
 
 
