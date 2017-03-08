@@ -8,7 +8,6 @@ import (
 )
 
 // init registers the MetricSet with the central registry.
-// The New method will be called after the setup of the module and before starting to fetch data
 func init() {
 	if err := mb.Registry.AddMetricSet("elasticon", "demo", New, hostParser); err != nil {
 		panic(err)
@@ -21,18 +20,11 @@ var (
 	}.Build()
 )
 
-// MetricSet type defines all fields of the MetricSet
-// As a minimum it must inherit the mb.BaseMetricSet fields, but can be extended with
-// additional entries. These variables can be used to persist data or configuration between
-// multiple fetch calls.
 type MetricSet struct {
 	mb.BaseMetricSet
 	http *helper.HTTP
 }
 
-// New create a new instance of the MetricSet
-// Part of new is also setting up the configuration by processing additional
-// configuration entries if needed.
 func New(base mb.BaseMetricSet) (mb.MetricSet, error) {
 
 	return &MetricSet{
@@ -41,9 +33,6 @@ func New(base mb.BaseMetricSet) (mb.MetricSet, error) {
 	}, nil
 }
 
-// Fetch methods implements the data gathering and data conversion to the right format
-// It returns the event which is then forward to the output. In case of an error, a
-// descriptive error must be returned.
 func (m *MetricSet) Fetch() (common.MapStr, error) {
 
 	data, err := m.http.FetchJSON()
